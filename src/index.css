@@ -1,0 +1,28 @@
+/* s1: Import Noir Pro font FIRST - before all other rules */
+@import url('https://fonts.googleapis.com/css2?family=Noir+Pro:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* s1: Set global font and background for admin theme */
+@layer base {
+  body {
+    font-family: 'Noir Pro', system-ui, -apple-system, sans-serif;
+    background-color: #01021c;
+    color: #ffffff;
+  }
+}
+
+/* s1: Custom hover effect for cards */
+@layer utilities {
+  .card-hover {
+    transition: all 0.3s ease;
+  }
+  
+  .card-hover:hover {
+    background-color: rgba(227, 150, 7, 0.05);
+    border-color: #e39607;
+    box-shadow: 0 0 0 1px rgba(227, 150, 7, 0.1), 0 4px 20px rgba(227, 150, 7, 0.1);
+  }
+}
