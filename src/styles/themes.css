@@ -1,0 +1,781 @@
+/* Base Variables */
+:root {
+  --transition: all 0.3s ease;
+  --border-radius: 8px;
+  --font-mono: 'Fira Code', 'Monaco', 'Consolas', monospace;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Light Theme - Professional Resume (White Mode) */
+.theme-light {
+  --bg-primary: #ffffff;
+  --text-primary: #000000;
+  --text-secondary: #333333;
+  --accent-primary: #2563eb;
+  --border: #cccccc;
+  
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* VSCode Theme - Popping and Locking Colors */
+.theme-dark {
+  /* Background Colors */
+  --bg-primary: #000000;           /* editor.background */
+  --bg-secondary: #000000;        /* sideBar.background */
+  --bg-tertiary: #000000;         /* titleBar.activeBackground */
+  --bg-sidebar: #000000;          /* sideBar.background */
+  --bg-tab: #000000;              /* tab.activeBackground */
+  --bg-tab-inactive: #1C1D26;     /* tab.inactiveBackground */
+  --bg-line-highlight: #272836;    /* editor.lineHighlightBackground */
+  
+  /* Text Colors */
+  --text-primary: #f2e5bc;        /* foreground */
+  --text-secondary: #fbf1c7;      /* sideBar.foreground */
+  --text-muted: #a89984;          /* terminal.ansiWhite */
+  
+  /* Syntax Colors from tokenColors */
+  --color-keyword: #f42c3e;       /* keyword */
+  --color-string: #b8bb26;        /* string */
+  --color-function: #7ec16e;      /* entity.name.function */
+  --color-variable: #99c6ca;      /* variable */
+  --color-type: #fabd2f;          /* Types declaration */
+  --color-comment: #506899;       /* Comments */
+  --color-constant: #d3869b;      /* constant */
+  --color-operator: #7ec16e;      /* keyword.operator */
+  --color-property: #fabd2f;      /* support.type.property-name */
+  --color-bracket: #d5c4a1;       /* brace */
+  --color-method: #689d6a;        /* entity.name.method */
+  --color-number: #d3869b;        /* constant */
+  
+  /* UI Colors */
+  --border: #313242;              /* list.activeSelectionBackground */
+  --selection: #60daff47;         /* editor.selectionBackground */
+  --cursor: #f42c3e;              /* editorCursor.foreground */
+  --active-selection: #313242;    /* list.activeSelectionBackground */
+  
+  font-family: var(--font-mono);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* VSCode Layout with Pitch Black Background */
+body.theme-dark {
+  margin: 0;
+  padding: 0;
+  background: #000000 !important;  /* Pitch black background */
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.vscode-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.vscode-titlebar {
+  height: 30px;
+  background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.window-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.control {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.control.close { background: #ff5f57; }
+.control.minimize { background: #ffbd2e; }
+.control.maximize { background: #28ca42; }
+
+.title-bar {
+  font-size: 13px;
+  color: var(--text-primary);
+  flex: 1;
+  text-align: center;
+}
+
+.titlebar-actions {
+  display: flex;
+  align-items: center;
+}
+
+.action-icon {
+  opacity: 0.7;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.action-icon:hover {
+  opacity: 1;
+}
+
+.vscode-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Sidebar with exact theme colors */
+.vscode-sidebar {
+  width: 300px;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+
+/* File Icon Styling */
+.file-icon {
+  font-size: 16px;
+  margin-right: 8px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* File Icon Colors */
+.file-icon.python { color: #3776ab; }
+.file-icon.javascript { color: #f7df1e; }
+.file-icon.react { color: #61dafb; }
+.file-icon.typescript { color: #3178c6; }
+.file-icon.markdown { color: #083fa1; }
+.file-icon.yaml { color: #cb171e; }
+.file-icon.java { color: #f89820; }
+.file-icon.generic { color: #858585; }
+
+/* File item hover effects */
+.file-item:hover .file-icon {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+.file-item.active .file-icon {
+  filter: brightness(1.2);
+}
+
+
+.explorer-header {
+  padding: 8px 12px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.explorer-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.explorer-actions .action-icon {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.explorer-actions .action-icon:hover {
+  opacity: 1;
+}
+
+.file-tree {
+  flex: 1;
+  padding: 8px 0;
+  overflow-y: auto;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-secondary);
+  transition: background 0.2s;
+}
+
+.file-item:hover {
+  background: var(--active-selection);
+}
+
+.file-item.active {
+  background: var(--active-selection);
+  color: var(--text-primary);
+}
+
+.file-icon {
+  font-size: 16px;
+}
+
+.file-name {
+  font-family: var(--font-mono);
+}
+
+.sidebar-status {
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-secondary);
+}
+
+.git-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.git-icon {
+  font-size: 14px;
+}
+
+/* Editor with exact theme colors */
+.vscode-editor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-tabs {
+  display: flex;
+  background: var(--bg-tab-inactive);
+  border-bottom: 1px solid var(--border);
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--bg-tab-inactive);
+  border-right: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-muted);
+  position: relative;
+}
+
+.tab.active {
+  background: var(--bg-tab);
+  color: var(--text-primary);
+}
+
+.tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-function);
+}
+
+.tab-icon {
+  font-size: 14px;
+}
+
+.tab-close {
+  opacity: 0.6;
+  padding: 2px;
+  border-radius: 2px;
+}
+
+.tab-close:hover {
+  opacity: 1;
+  background: var(--border);
+}
+
+.editor-content {
+  flex: 1;
+  display: flex;
+  background: var(--bg-primary);
+  overflow: auto;
+  position: relative;
+}
+
+.line-numbers {
+  background: var(--bg-primary);
+  color: var(--text-muted);
+  padding: 10px 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: right;
+  user-select: none;
+  min-width: 50px;
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.line-numbers span {
+  display: block;
+  height: 20.8px;
+}
+
+.code-area {
+  white-space: pre-wrap;        /* Allow wrapping instead of overflow */
+  word-break: break-word;       /* Break long words properly */
+  overflow-wrap: break-word;    /* Handle long strings */
+}
+
+.editor-status {
+  height: 24px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.status-left, .status-right {
+  display: flex;
+  gap: 16px;
+}
+
+.status-item {
+  cursor: pointer;
+}
+
+.status-item:hover {
+  color: var(--text-primary);
+}
+
+/* Code Styling with Exact Theme Colors */
+.code-content {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.code-line {
+  display: block;
+  min-height: 20.8px;
+  line-height: 1.6;
+}
+
+.code-line:hover {
+  background: var(--bg-line-highlight);
+}
+
+.code-line.empty-line {
+  min-height: 20.8px;
+}
+
+/* Proper spacing for achievement bullets */
+.code-line.achievement-bullet {
+  margin-bottom: 0.2em;
+  line-height: 1.5;
+}
+
+/* Indentation */
+.indent { 
+  padding-left: 20px; 
+  text-indent: 0;
+}
+
+.indent-2 { 
+  padding-left: 40px; 
+  text-indent: 0;
+}
+
+.indent-3 { 
+  padding-left: 60px; 
+  text-indent: 0;
+}
+
+.indent-4 { 
+  padding-left: 80px; 
+  text-indent: 0;
+}
+
+/* Syntax Highlighting - Exact Theme Colors */
+.keyword { color: var(--color-keyword); font-weight: normal; }
+.variable { color: var(--color-variable); }
+.string { color: var(--color-string); }
+.property { color: var(--color-property); }
+.operator { color: var(--color-operator); }
+.bracket { color: var(--color-bracket); }
+.comment { color: var(--color-comment); font-style: italic; }
+.function { color: var(--color-function); }
+.method { color: var(--color-method); }
+.type { color: var(--color-type); }
+.constant { color: var(--color-constant); }
+.number { color: var(--color-number); }
+
+/* Section highlighting */
+.code-section {
+  transition: background-color 0.3s ease;
+  padding: 4px 0;
+  border-radius: 4px;
+}
+
+.code-section.highlighted {
+  background-color: var(--bg-line-highlight);
+  animation: highlight-pulse 2s ease-out;
+}
+
+@keyframes highlight-pulse {
+  0% { background-color: var(--selection); }
+  100% { background-color: transparent; }
+}
+
+/* Loading/Error States */
+.vscode-loading,
+.vscode-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.loading-text,
+.error-text {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.error-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 5px;
+}
+
+.loading-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.loading-dots span {
+  animation: loading-bounce 1.4s ease-in-out infinite both;
+}
+
+.loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+.loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes loading-bounce {
+  0%, 80%, 100% { 
+    transform: scale(0);
+  } 40% { 
+    transform: scale(1.0);
+  }
+}
+
+/* Selection and Cursor */
+.code-line::selection {
+  background: var(--selection);
+}
+
+.code-line:focus {
+  outline: none;
+  background: var(--bg-line-highlight);
+}
+
+/* Scrollbar styling for VSCode */
+.theme-dark ::-webkit-scrollbar {
+  width: 12px;
+}
+
+.theme-dark ::-webkit-scrollbar-track {
+  background: var(--bg-tertiary);
+}
+
+.theme-dark ::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 6px;
+}
+
+.theme-dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+}
+
+/* Paper-like body background */
+body.theme-light {
+  margin: 0;
+  padding: 2rem 1rem;
+  transition: var(--transition);
+  line-height: 1.6;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+/* Resume Layout - Paper with beautiful shadows */
+.resume {
+  max-width: 8.5in;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 3rem;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  
+  /* Beautiful layered paper shadows */
+  box-shadow: 
+    0 1px 3px rgba(0,0,0,0.12),
+    0 2px 8px rgba(0,0,0,0.08),
+    0 4px 16px rgba(0,0,0,0.06),
+    0 8px 32px rgba(0,0,0,0.04);
+  
+  /* Subtle rounded corners like real paper */
+  border-radius: 4px;
+  
+  /* Paper texture overlay */
+  position: relative;
+}
+
+/* Optional: Subtle paper texture */
+.resume::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 1px 1px, rgba(0,0,0,0.01) 1px, transparent 0);
+  background-size: 20px 20px;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* Header */
+.resume-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.name {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: 1px;
+}
+
+.contact-info {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.contact-info a {
+  color: var(--accent-primary);
+  text-decoration: none;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+}
+
+.separator {
+  margin: 0 0.5rem;
+}
+
+/* Sections */
+.resume-section {
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem 0;
+  border-bottom: 1px solid var(--text-primary);
+  padding-bottom: 0.2rem;
+  letter-spacing: 0.5px;
+}
+
+/* Experience */
+.experience-item {
+  margin-bottom: 1rem;
+}
+
+.experience-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.position-company .position {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.position-company .status {
+  color: var(--accent-primary);
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+
+.position-company .company {
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.duration-location {
+  text-align: right;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* Education */
+.education-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.25rem;
+}
+
+.degree {
+  font-weight: 600;
+}
+
+/* Skills */
+.skill-category {
+  margin-bottom: 0.5rem;
+}
+
+.skill-category strong {
+  font-weight: 600;
+}
+
+.skills-list {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-top: 0.1rem;
+}
+
+/* Projects */
+.project-item {
+  margin-bottom: 1rem;
+}
+
+.project-header strong {
+  font-weight: 700;
+}
+
+.project-subtitle {
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+}
+
+/* Bullet Points */
+.bullet-points {
+  margin: 0.5rem 0 0 1.5rem;
+  padding: 0;
+}
+
+.bullet-points li {
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* Links in certifications */
+.certifications-content a,
+.leadership-content a {
+  color: var(--accent-primary);
+  text-decoration: none;
+}
+
+.certifications-content a:hover,
+.leadership-content a:hover {
+  text-decoration: underline;
+}
+
+/* Loading/Error States */
+.loading,
+.error {
+  text-align: center;
+  padding: 3rem 2rem;
+  font-size: 1.1rem;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.error {
+  color: #dc2626;
+}
+
+/* Print Styles - Remove shadows and background for printing */
+@media print {
+  body.theme-light {
+    background: white !important;
+  }
+  
+  .resume {
+    box-shadow: none !important;
+    margin: 0;
+    padding: 0.5in;
+    min-height: auto;
+  }
+  
+  .resume::before {
+    display: none;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  body.theme-light {
+    padding: 1rem 0.5rem;
+  }
+  
+  .resume {
+    padding: 2rem 1.5rem;
+    margin: 1rem auto;
+  }
+  
+  .name {
+    font-size: 1.5rem;
+  }
+  
+  .experience-header,
+  .education-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .duration-location {
+    text-align: left;
+    margin-top: 0.25rem;
+  }
+}

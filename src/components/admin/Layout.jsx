@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { 
   User, 
   GraduationCap, 
@@ -9,11 +9,15 @@ import {
   Award, 
   Users, 
   Eye,
-  Plus
+  Plus,
+  LayoutDashboard // Add this import for dashboard icon
 } from 'lucide-react';
 
 const AdminLayout = () => {
+  const navigate = useNavigate();
+
   const navItems = [
+    { name: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard }, // Add dashboard first
     { name: 'Personal Info', path: '/admin/personal', icon: User },
     { name: 'Education', path: '/admin/education', icon: GraduationCap },
     { name: 'Skills', path: '/admin/skills', icon: Code },
@@ -24,17 +28,27 @@ const AdminLayout = () => {
     { name: 'Custom Sections', path: '/admin/sections', icon: Plus },
   ];
 
+  // Handle click on Portfolio Admin header
+  const handleHeaderClick = () => {
+    navigate('/admin/dashboard');
+  };
+
   return (
     // s1: Updated main container with dark theme colors
     <div className="min-h-screen bg-admin-bg flex font-noir">
       {/* s1: Updated sidebar with dark theme styling */}
       <div className="w-64 bg-admin-card shadow-xl border-r border-admin-border">
-        {/* s1: Header with golden accent border */}
-        <div className="p-6 border-b border-admin-border">
-          <h1 className="text-2xl font-bold text-admin-text">Portfolio Admin</h1>
-          <p className="text-sm text-admin-text/70 mt-1">Manage your content</p>
+        {/* s1: Header with golden accent border - NOW CLICKABLE */}
+        <div 
+          className="p-6 border-b border-admin-border cursor-pointer hover:bg-admin-accent/5 transition-colors duration-200"
+          onClick={handleHeaderClick}
+        >
+          <h1 className="text-2xl font-bold text-admin-text hover:text-admin-accent transition-colors duration-200">
+            Currliculum V8
+          </h1>
+          <p className="text-sm text-admin-text/70 mt-1">Turbocharge your career</p>
           {/* s1: Golden accent line */}
-          <div className="w-12 h-0.5 bg-admin-accent mt-3"></div>
+          <div className="w-15 h-0.5 bg-admin-accent mt-3"></div>
         </div>
         
         {/* s1: Navigation with hover effects */}
