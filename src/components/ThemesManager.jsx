@@ -7,7 +7,7 @@ const ThemeManager = () => {
   useEffect(() => {
     console.log('ThemeManager: Current path:', location.pathname);
     
-    if (location.pathname === '/') {
+    if (location.pathname === '/resume') {
       console.log('ThemeManager: Setting theme-light');
       document.body.className = 'theme-light';
     } else if (location.pathname === '/vscode') {

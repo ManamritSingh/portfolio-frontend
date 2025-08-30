@@ -18,6 +18,7 @@ import SectionContentManager from './components/admin/SectionContentManager';
 import ThemeManager from './components/ThemesManager.jsx';
 import Resume from './components/Resume/Resume';
 import VSCodeResume from './components/Resume/VSCodeResume';
+import Preferences from './components/home/PreferencePage.jsx';
 import './styles/themes.css';
 
 // Home (public landing) sections using MUI
@@ -34,9 +35,10 @@ function App() {
 
         <Routes>
           {/* Public/portfolio routes */}
-          <Route path="/" element={<Resume />} />
+          <Route path="/" element={<Main />} />
           <Route path="/vscode" element={<VSCodeResume />} />
-
+          <Route path="/resume" element={<Resume />} />
+          <Route path="/start" element={<Preferences />} />
           <Route path="/home" element={<Main />} />
 
           {/* Admin routes with nested structure */}

@@ -512,6 +512,26 @@ body.theme-dark {
   background: var(--text-muted);
 }
 
+.vscode-container a {
+  color: #4da3ff;            /* link color */
+  text-decoration: underline; /* keep underline for a11y */
+}
+
+.vscode-container a:visited {
+  color: #8a6cff;            /* visited link distinct color */
+}
+
+.vscode-container a:hover,
+.vscode-container a:focus-visible {
+  color: #78bdff;
+  text-underline-offset: 2px; /* clearer underline cue */
+  outline: none;              /* rely on focus-visible underline/color */
+}
+
+.vscode-container a:active {
+  color: #2d8cff;
+}
+
 
 /* Global Styles */
 * {
@@ -524,7 +544,7 @@ body.theme-light {
   padding: 2rem 1rem;
   transition: var(--transition);
   line-height: 1.6;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #f2e1d0 0%, #f0eddd 100%);
   min-height: 100vh;
 }
 

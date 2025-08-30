@@ -12,6 +12,9 @@ import Skills from "./Skills.jsx";
 import Socials from "./Socials.jsx";
 
 
+// import homeTheme from "./hometheme.js";
+
+
 const homeTheme = createTheme({
   cssVariables: true, // optional; enables var(--mui-...) for CSS if needed
   palette: {

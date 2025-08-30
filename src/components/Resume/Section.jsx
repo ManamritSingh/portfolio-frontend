@@ -41,7 +41,7 @@ const Section = ({ section, data }) => {
                 <div className="experience-header">
                   <div className="position-company">
                     <span className="position">{exp.position}</span>
-                    {exp.status && <span className="status">({exp.status})</span>}
+                    {/* {exp.status && <span className="status">({exp.status})</span>} */}
                     <br />
                     <span className="company">{exp.company}</span>
                   </div>

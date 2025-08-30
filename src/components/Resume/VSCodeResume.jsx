@@ -1,5 +1,7 @@
+// src/components/vscode/VSCodeResume.jsx
 import React, { useState, useEffect, useRef } from "react";
 import { fetchAllResumeData } from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 import {
   SiPython,
@@ -9,17 +11,48 @@ import {
   SiMarkdown,
   SiYaml,
 } from "react-icons/si";
-import { DiJava } from "react-icons/di"; // Use DevIcons for Java
+import { DiJava } from "react-icons/di";
 import { VscFileCode } from "react-icons/vsc";
+
+// Titlebar with window controls; close navigates to /home
+function VSCodeTitlebar() {
+  const navigate = useNavigate();
+  return (
+    <div className="vscode-titlebar">
+      <div className="window-controls">
+        <button
+          type="button"
+          className="control close"
+          aria-label="Close window"
+          onClick={() => navigate("/home")}
+        />
+        <button
+          type="button"
+          className="control minimize"
+          aria-label="minimize window"
+          onClick={() => navigate("/home")}
+        />
+        <span className="control maximize"></span>
+      </div>
+      <div className="title-bar">Resume - Visual Studio Code</div>
+      <div className="titlebar-actions">
+        <span className="action-icon">⚙️</span>
+      </div>
+    </div>
+  );
+}
 
 const VSCodeResume = () => {
   const [resumeData, setResumeData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState(null);
   const [highlightedSection, setHighlightedSection] = useState(null);
-  const sectionRefs = useRef({});
 
-  // File extensions for each section
+  const sectionRefs = useRef({});
+  const editorRef = useRef(null);
+  const navigate = useNavigate();
+
+  // File extensions for each section (for sidebar file list)
   const sectionExtensions = {
     "personal-info": "md",
     experience: "py",
@@ -53,12 +86,10 @@ const VSCodeResume = () => {
 
   useEffect(() => {
     document.body.className = "theme-dark";
-
     const loadResumeData = async () => {
       try {
         const data = await fetchAllResumeData();
         setResumeData(data);
-        // Set README.md as default selected file
         setSelectedFile({
           sectionType: "personal-info",
           sectionName: "Personal Info",
@@ -70,9 +101,7 @@ const VSCodeResume = () => {
         setLoading(false);
       }
     };
-
     loadResumeData();
-
     return () => {
       document.body.className = "";
     };
@@ -82,15 +111,9 @@ const VSCodeResume = () => {
     setSelectedFile(section);
     setHighlightedSection(section.sectionType);
 
-    // Scroll to the section
     const sectionElement = sectionRefs.current[section.sectionType];
     if (sectionElement) {
-      sectionElement.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-
-      // Highlight effect
+      sectionElement.scrollIntoView({ behavior: "smooth", block: "start" });
       sectionElement.style.background = "var(--bg-line-highlight)";
       setTimeout(() => {
         sectionElement.style.background = "transparent";
@@ -130,20 +153,8 @@ const VSCodeResume = () => {
 
   return (
     <div className="vscode-container">
-      {/* VSCode Window Controls */}
-      <div className="vscode-titlebar">
-        <div className="window-controls">
-          <span className="control close"></span>
-          <span className="control minimize"></span>
-          <span className="control maximize"></span>
-        </div>
-        <div className="title-bar">
-          {resumeData.personal.name} - Resume - Visual Studio Code
-        </div>
-        <div className="titlebar-actions">
-          <span className="action-icon">⚙️</span>
-        </div>
-      </div>
+      {/* Titlebar */}
+      <VSCodeTitlebar />
 
       <div className="vscode-layout">
         {/* Left Sidebar - File Explorer */}
@@ -175,7 +186,7 @@ const VSCodeResume = () => {
               <span className="file-name">Readme.md</span>
             </div>
 
-            {/* Other sections as code files */}
+            {/* Other sections */}
             {sortedSections.map((section) => (
               <div
                 key={section.id || section.sectionType}
@@ -205,7 +216,7 @@ const VSCodeResume = () => {
         </div>
 
         {/* Main Editor Area */}
-        <div className="vscode-editor">
+        <div className="vscode-editor" ref={editorRef}>
           {/* Tabs */}
           <div className="editor-tabs">
             <div className="tab active">
@@ -245,11 +256,87 @@ const VSCodeResume = () => {
           </div>
         </div>
       </div>
+
+      {/* Centered floating glass pills (no download button) */}
+
+      <div
+        style={{
+          position: "fixed",
+          left: "50%",
+          bottom: "20px",
+          transform: "translateX(-50%)",
+          display: "flex",
+          gap: "8px",
+          zIndex: 2147483647,
+        }}
+      >
+        {/* Home */}
+        <div
+          onClick={() => navigate("/home")}
+          role="button"
+          aria-label="Go Home"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            borderRadius: "9999px",
+            padding: "10px 14px",
+            background: "rgba(255,255,255,0.35)", // was 0.22
+            backdropFilter: "saturate(160%) blur(14px)", // was blur(10px)
+            WebkitBackdropFilter: "saturate(160%) blur(14px)",
+            border: "1px solid rgba(255,255,255,0.28)", // was 1px solid rgba(0,0,0,0.12)
+            boxShadow:
+              "0 10px 30px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.25)", // stronger lift
+            cursor: "pointer",
+            userSelect: "none",
+          }}
+        >
+          <span
+            style={{
+              fontWeight: 800,
+              color: "#fff",
+              textShadow: "0 1px 1px rgba(0,0,0,0.45)",
+            }}
+          >
+            Home
+          </span>
+        </div>
+
+        {/* Light Mode -> /resume */}
+        <div
+          onClick={() => navigate("/resume")}
+          role="button"
+          aria-label="Switch to light resume"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            borderRadius: "9999px",
+            padding: "10px 14px",
+            background: "rgba(255,255,255,0.35)",
+            backdropFilter: "saturate(160%) blur(14px)",
+            WebkitBackdropFilter: "saturate(160%) blur(14px)",
+            border: "1px solid rgba(255,255,255,0.28)",
+            boxShadow:
+              "0 10px 30px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.25)",
+            cursor: "pointer",
+            userSelect: "none",
+          }}
+        >
+          <span
+            style={{
+              fontWeight: 800,
+              color: "#fff",
+              textShadow: "0 1px 1px rgba(0,0,0,0.45)",
+            }}
+          >
+            Download/Light Mode
+          </span>
+        </div>
+      </div>
     </div>
   );
 };
 
-// Component that renders the entire resume as code
+// Component that renders the entire resume as code in the VSCode UI
 const FullResumeCode = ({
   resumeData,
   sortedSections,
@@ -258,7 +345,6 @@ const FullResumeCode = ({
 }) => {
   return (
     <div className="code-content">
-      {/* File Header Comment */}
       <div className="code-line">
         <span className="comment">/**</span>
       </div>
@@ -285,7 +371,6 @@ const FullResumeCode = ({
       </div>
       <div className="code-line empty-line"></div>
 
-      {/* Import statements */}
       <div className="code-line">
         <span className="keyword">import</span>{" "}
         <span className="bracket">{"{"}</span>{" "}
@@ -301,7 +386,6 @@ const FullResumeCode = ({
       </div>
       <div className="code-line empty-line"></div>
 
-      {/* Main Resume Object */}
       <div className="code-line">
         <span className="keyword">const</span>{" "}
         <span className="variable">resume</span>{" "}
@@ -309,7 +393,7 @@ const FullResumeCode = ({
         <span className="bracket">{"{"}</span>
       </div>
 
-      {/* Personal Info Section */}
+      {/* Personal Info */}
       <div
         ref={(el) => (sectionRefs.current["personal-info"] = el)}
         className={`code-section ${
@@ -338,7 +422,6 @@ const FullResumeCode = ({
           </a>
           <span className="operator">,</span>
         </div>
-
         <div className="code-line indent-2">
           <span className="property">phone</span>
           <span className="operator">:</span>{" "}
@@ -363,7 +446,6 @@ const FullResumeCode = ({
             "{resumeData.personal.linkedinUrl}"
           </a>
         </div>
-
         <div className="code-line indent">
           <span className="bracket">{"}"}</span>
           <span className="operator">,</span>
@@ -371,7 +453,7 @@ const FullResumeCode = ({
         <div className="code-line empty-line"></div>
       </div>
 
-      {/* Render each section */}
+      {/* Other sections */}
       {sortedSections.map((section, index) => (
         <div
           key={section.sectionType}
@@ -388,13 +470,11 @@ const FullResumeCode = ({
         </div>
       ))}
 
-      {/* Closing bracket */}
       <div className="code-line">
         <span className="bracket">{"}"}</span>
         <span className="operator">;</span>
       </div>
 
-      {/* Export statement */}
       <div className="code-line empty-line"></div>
       <div className="code-line">
         <span className="keyword">export</span>{" "}
@@ -760,7 +840,6 @@ const SectionCodeRenderer = ({ section, data, isLast }) => {
                     <span className="operator">,</span>
                   </div>
                 )}
-
                 <div className="code-line indent-3">
                   <span className="property">verified</span>
                   <span className="operator">:</span>{" "}
