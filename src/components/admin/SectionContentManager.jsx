@@ -36,7 +36,8 @@ const SectionContentManager = () => {
   const [editingContent, setEditingContent] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const API_BASE = 'http://localhost:8080/api';
+  const API_BASE = `${import.meta.env.VITE_API_BASE_URL}/api`;
+
 
   const sensors = useSensors(
     useSensor(PointerSensor),

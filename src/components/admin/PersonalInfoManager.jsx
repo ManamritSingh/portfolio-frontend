@@ -27,7 +27,8 @@ const PersonalInfoManager = () => {
   const [success, setSuccess] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
 
-  const API_BASE = "http://localhost:8080/api";
+  const API_BASE = `${import.meta.env.VITE_API_BASE_URL}/api`;
+
 
   // s1: Initial data fetch on component mount
   useEffect(() => {

@@ -27,7 +27,8 @@ const EducationManager = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingEducation, setEditingEducation] = useState(null);
 
-  const API_BASE = 'http://localhost:8080/api';
+  const API_BASE = `${import.meta.env.VITE_API_BASE_URL}/api`;
+
 
   const sensors = useSensors(
     useSensor(PointerSensor),

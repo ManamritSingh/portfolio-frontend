@@ -28,7 +28,8 @@ const SkillsManager = () => {
   const [editingSkill, setEditingSkill] = useState(null);
   const [expandedCategories, setExpandedCategories] = useState(new Set());
 
-  const API_BASE = 'http://localhost:8080/api';
+  const API_BASE = `${import.meta.env.VITE_API_BASE_URL}/api`;
+
 
   const sensors = useSensors(
     useSensor(PointerSensor),

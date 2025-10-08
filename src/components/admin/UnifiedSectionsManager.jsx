@@ -31,7 +31,8 @@ const UnifiedSectionsManager = () => {
   const [showForm, setShowForm] = useState(false);
   const navigate = useNavigate();
 
-  const API_BASE = 'http://localhost:8080/api';
+  const API_BASE = `${import.meta.env.VITE_API_BASE_URL}/api`;
+
 
   const sensors = useSensors(
     useSensor(PointerSensor),

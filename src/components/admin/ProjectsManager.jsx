@@ -26,7 +26,8 @@ const ProjectsManager = () => {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const API_BASE = 'http://localhost:8080/api';
+  const API_BASE = `${import.meta.env.VITE_API_BASE_URL}/api`;
+
 
   const sensors = useSensors(
     useSensor(PointerSensor),
