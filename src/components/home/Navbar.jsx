@@ -10,6 +10,7 @@ const links = [
   { label: "Portfolio", href: "/start" },
   { label: "Skills", href: "#skills" },
   { label: "Contact", href: "#contact" },
+  { label: "Admin", href: "/admin" },
 ];
 
 export default function Navbar() {

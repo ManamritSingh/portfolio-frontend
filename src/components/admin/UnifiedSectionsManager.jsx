@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../../../src/utils/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import {
   DndContext,
@@ -50,7 +50,7 @@ const UnifiedSectionsManager = () => {
     setError('');
     
     try {
-      const response = await axios.get(`${API_BASE}/sections/unified`, { timeout: 10000 });
+      const response = await axios.get(`${API_BASE}/admin/sections/unified`, { timeout: 10000 });
       
       if (response.data && Array.isArray(response.data)) {
         setSections(response.data);
@@ -92,7 +92,7 @@ const UnifiedSectionsManager = () => {
       }));
 
       try {
-        await axios.put(`${API_BASE}/sections/unified/reorder`, updatedSections);
+        await axios.put(`${API_BASE}/admin/sections/unified/reorder`, updatedSections);
         fetchSections(); // Refresh to ensure consistency
       } catch (error) {
         console.error('Error updating order:', error);
@@ -121,7 +121,7 @@ const UnifiedSectionsManager = () => {
 
     if (window.confirm(`Are you sure you want to delete "${section.sectionName}"? All content within this section will also be deleted.`)) {
       try {
-        await axios.delete(`${API_BASE}/sections/${section.id}`);
+        await axios.delete(`${API_BASE}/admin/sections/${section.id}`);
         fetchSections();
       } catch (error) {
         console.error('Error deleting section:', error);
@@ -134,13 +134,13 @@ const UnifiedSectionsManager = () => {
     try {
       if (section.isDynamic) {
         // Toggle dynamic section visibility
-        await axios.put(`${API_BASE}/sections/${section.id}`, {
+        await axios.put(`${API_BASE}/admin/sections/${section.id}`, {
           ...section,
           visible: !section.visible
         });
       } else {
         // Toggle fixed section visibility
-        await axios.put(`${API_BASE}/sections/unified/${section.sectionType}/visibility`);
+        await axios.put(`${API_BASE}/admin/sections/unified/${section.sectionType}/visibility`);
       }
       fetchSections();
     } catch (error) {
@@ -247,7 +247,7 @@ const UnifiedSectionsManager = () => {
         <CustomSectionForm
           onSave={async (sectionData) => {
             try {
-              await axios.post(`${API_BASE}/sections`, sectionData);
+              await axios.post(`${API_BASE}/admin/sections`, sectionData);
               setShowForm(false);
               fetchSections();
             } catch (error) {

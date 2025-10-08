@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../../../src/utils/axiosInstance';
 import {
   DndContext,
   closestCenter,
@@ -52,7 +52,7 @@ const SkillsManager = () => {
     try {
       console.log('📡 Making request to:', `${API_BASE}/skills`);
       
-      const response = await axios.get(`${API_BASE}/skills`, {
+      const response = await axios.get(`${API_BASE}/admin/skills`, {
         timeout: 10000,
       });
       
@@ -111,7 +111,7 @@ const SkillsManager = () => {
       try {
         await Promise.all(
           updatedItems.map(item =>
-            axios.put(`${API_BASE}/skills/${item.id}`, item)
+            axios.put(`${API_BASE}/admin/skills/${item.id}`, item)
           )
         );
         fetchSkills();
@@ -126,9 +126,9 @@ const SkillsManager = () => {
   const handleSave = async (skillData) => {
     try {
       if (editingSkill) {
-        await axios.put(`${API_BASE}/skills/${editingSkill.id}`, skillData);
+        await axios.put(`${API_BASE}/admin/skills/${editingSkill.id}`, skillData);
       } else {
-        await axios.post(`${API_BASE}/skills`, skillData);
+        await axios.post(`${API_BASE}/admin/skills`, skillData);
       }
       
       setShowForm(false);
@@ -144,7 +144,7 @@ const SkillsManager = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this skill category?')) {
       try {
-        await axios.delete(`${API_BASE}/skills/${id}`);
+        await axios.delete(`${API_BASE}/admin/skills/${id}`);
         fetchSkills();
       } catch (error) {
         console.error('Error deleting skills:', error);
@@ -155,7 +155,7 @@ const SkillsManager = () => {
   // s1: Toggle skill category visibility
   const toggleVisibility = async (skill) => {
     try {
-      await axios.put(`${API_BASE}/skills/${skill.id}`, {
+      await axios.put(`${API_BASE}/admin/skills/${skill.id}`, {
         ...skill,
         visible: !skill.visible
       });

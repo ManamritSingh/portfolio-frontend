@@ -250,7 +250,7 @@ export default function Resume() {
               color: 'text.primary',
             }}
           >
-            Tech Person ?
+            Tech Person ? / Dark Mode
           </Button>
         </Paper>
 

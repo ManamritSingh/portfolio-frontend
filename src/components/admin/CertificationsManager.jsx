@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../../../src/utils/axiosInstance';
 import {
   DndContext,
   closestCenter,
@@ -45,7 +45,7 @@ const CertificationsManager = () => {
     setError('');
     
     try {
-      const response = await axios.get(`${API_BASE}/certifications`, { timeout: 10000 });
+      const response = await axios.get(`${API_BASE}/admin/certifications`, { timeout: 10000 });
       
       if (response.data && Array.isArray(response.data)) {
         setCertifications(response.data);
@@ -86,7 +86,7 @@ const CertificationsManager = () => {
 
       try {
         await Promise.all(
-          updatedItems.map(item => axios.put(`${API_BASE}/certifications/${item.id}`, item))
+          updatedItems.map(item => axios.put(`${API_BASE}/admin/certifications/${item.id}`, item))
         );
         fetchCertifications();
       } catch (error) {
@@ -99,9 +99,9 @@ const CertificationsManager = () => {
   const handleSave = async (certificationData) => {
     try {
       if (editingCertification) {
-        await axios.put(`${API_BASE}/certifications/${editingCertification.id}`, certificationData);
+        await axios.put(`${API_BASE}/admin/certifications/${editingCertification.id}`, certificationData);
       } else {
-        await axios.post(`${API_BASE}/certifications`, certificationData);
+        await axios.post(`${API_BASE}/admin/certifications`, certificationData);
       }
       
       setShowForm(false);
@@ -116,7 +116,7 @@ const CertificationsManager = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this certification?')) {
       try {
-        await axios.delete(`${API_BASE}/certifications/${id}`);
+        await axios.delete(`${API_BASE}/admin/certifications/${id}`);
         fetchCertifications();
       } catch (error) {
         console.error('Error deleting certification:', error);
@@ -126,7 +126,7 @@ const CertificationsManager = () => {
 
   const toggleVisibility = async (certification) => {
     try {
-      await axios.put(`${API_BASE}/certifications/${certification.id}`, {
+      await axios.put(`${API_BASE}/admin/certifications/${certification.id}`, {
         ...certification,
         visible: !certification.visible
       });

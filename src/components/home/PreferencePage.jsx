@@ -17,13 +17,14 @@ export default function Preferences() {
   const [isTech, setIsTech] = useState(null); // 'yes' | 'no' | null
   const [mode, setMode] = useState(null); // 'light' | 'dark' | null
 
-  useEffect(() => {
-    const saved = localStorage.getItem("color-mode");
-    if (saved === "light" || saved === "dark") setMode(saved);
-    else if (window.matchMedia?.("(prefers-color-scheme: dark)").matches)
-      setMode("dark");
-    else setMode("light");
-  }, []);
+  // later, programmatically set default
+  // useEffect(() => {
+  //   const prefersDark = window.matchMedia?.(
+  //     "(prefers-color-scheme: dark)"
+  //   ).matches;
+  //   // only if still unset
+  //   if (mode === null) setMode(prefersDark ? "dark" : "light");
+  // }, [mode]);
 
   const handleSubmit = () => {
     // ensure both values exist before proceeding

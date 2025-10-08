@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../../../src/utils/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import { 
   User, 
@@ -31,6 +31,8 @@ const Dashboard = () => {
   });
   const [loading, setLoading] = useState(true);
 
+  const API_BASE = 'http://localhost:8080/api';
+
   useEffect(() => {
     fetchDashboardStats();
   }, []);
@@ -40,13 +42,13 @@ const Dashboard = () => {
     try {
       // Fetch stats from your various APIs
       const responses = await Promise.allSettled([
-        axios.get('http://localhost:8080/api/sections/unified'),
-        axios.get('http://localhost:8080/api/projects'),
-        axios.get('http://localhost:8080/api/experience'),
-        axios.get('http://localhost:8080/api/education'),
-        axios.get('http://localhost:8080/api/skills'),
-        axios.get('http://localhost:8080/api/certifications'),
-        axios.get('http://localhost:8080/api/leadership')
+        axios.get(`${API_BASE}/admin/sections/unified`),
+        axios.get(`${API_BASE}/admin/projects`),
+        axios.get(`${API_BASE}/admin/experience`),
+        axios.get(`${API_BASE}/admin/education`),
+        axios.get(`${API_BASE}/admin/skills`),
+        axios.get(`${API_BASE}/admin/certifications`),
+        axios.get(`${API_BASE}/admin/leadership`)
       ]);
 
       const [sectionsRes, projectsRes, expRes, eduRes, skillsRes, certRes, leaderRes] = responses;

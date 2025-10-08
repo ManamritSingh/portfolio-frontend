@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../../../src/utils/axiosInstance';
 import {
   DndContext,
   closestCenter,
@@ -49,9 +49,9 @@ const ExperienceManager = () => {
     setError('');
     
     try {
-      console.log('📡 Making request to:', `${API_BASE}/experience`);
+      console.log('📡 Making request to:', `${API_BASE}/admin/experience`);
       
-      const response = await axios.get(`${API_BASE}/experience`, {
+      const response = await axios.get(`${API_BASE}/admin/experience`, {
         timeout: 10000,
       });
       
@@ -106,7 +106,7 @@ const ExperienceManager = () => {
       try {
         await Promise.all(
           updatedItems.map(item =>
-            axios.put(`${API_BASE}/experience/${item.id}`, item)
+            axios.put(`${API_BASE}/admin/experience/${item.id}`, item)
           )
         );
         fetchExperiences();
@@ -121,9 +121,9 @@ const ExperienceManager = () => {
   const handleSave = async (experienceData) => {
     try {
       if (editingExperience) {
-        await axios.put(`${API_BASE}/experience/${editingExperience.id}`, experienceData);
+        await axios.put(`${API_BASE}/admin/experience/${editingExperience.id}`, experienceData);
       } else {
-        await axios.post(`${API_BASE}/experience`, experienceData);
+        await axios.post(`${API_BASE}/admin/experience`, experienceData);
       }
       
       setShowForm(false);
@@ -139,7 +139,7 @@ const ExperienceManager = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this experience?')) {
       try {
-        await axios.delete(`${API_BASE}/experience/${id}`);
+        await axios.delete(`${API_BASE}/admin/experience/${id}`);
         fetchExperiences();
       } catch (error) {
         console.error('Error deleting experience:', error);
@@ -150,7 +150,7 @@ const ExperienceManager = () => {
   // s1: Toggle experience visibility
   const toggleVisibility = async (experience) => {
     try {
-      await axios.put(`${API_BASE}/experience/${experience.id}`, {
+      await axios.put(`${API_BASE}/admin/experience/${experience.id}`, {
         ...experience,
         visible: !experience.visible
       });

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../../../src/utils/axiosInstance';
 import {
   DndContext,
   closestCenter,
@@ -49,9 +49,9 @@ const EducationManager = () => {
     setError('');
     
     try {
-      console.log('📡 Making request to:', `${API_BASE}/education`);
+      console.log('📡 Making request to:', `${API_BASE}/admin/education`);
       
-      const response = await axios.get(`${API_BASE}/education`, {
+      const response = await axios.get(`${API_BASE}/admin/education`, {
         timeout: 10000,
       });
       
@@ -106,7 +106,7 @@ const EducationManager = () => {
       try {
         await Promise.all(
           updatedItems.map(item =>
-            axios.put(`${API_BASE}/education/${item.id}`, item)
+            axios.put(`${API_BASE}/admin/education/${item.id}`, item)
           )
         );
         fetchEducation();
@@ -121,9 +121,9 @@ const EducationManager = () => {
   const handleSave = async (educationData) => {
     try {
       if (editingEducation) {
-        await axios.put(`${API_BASE}/education/${editingEducation.id}`, educationData);
+        await admin/put(`${API_BASE}/admin/education/${editingEducation.id}`, educationData);
       } else {
-        await axios.post(`${API_BASE}/education`, educationData);
+        await axios.post(`${API_BASE}/admin/education`, educationData);
       }
       
       setShowForm(false);
@@ -139,7 +139,7 @@ const EducationManager = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this education entry?')) {
       try {
-        await axios.delete(`${API_BASE}/education/${id}`);
+        await axios.delete(`${API_BASE}/admin/education/${id}`);
         fetchEducation();
       } catch (error) {
         console.error('Error deleting education:', error);
@@ -150,7 +150,7 @@ const EducationManager = () => {
   // s1: Toggle education visibility
   const toggleVisibility = async (edu) => {
     try {
-      await axios.put(`${API_BASE}/education/${edu.id}`, {
+      await axios.put(`${API_BASE}/admin/education/${edu.id}`, {
         ...edu,
         visible: !edu.visible
       });

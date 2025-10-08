@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../../../src/utils/axiosInstance';
 import {
   DndContext,
   closestCenter,
@@ -42,7 +42,7 @@ const ProjectsManager = () => {
   // s1: Working fetchProjects function
   const fetchProjects = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/projects`);
+      const response = await axios.get(`${API_BASE}/admin/projects`);
       setProjects(response.data);
     } catch (error) {
       console.error('Error fetching projects:', error);
@@ -74,7 +74,7 @@ const ProjectsManager = () => {
       try {
         await Promise.all(
           updatedItems.map(item =>
-            axios.put(`${API_BASE}/projects/${item.id}`, item)
+            axios.put(`${API_BASE}/admin/projects/${item.id}`, item)
           )
         );
         // Refresh from backend to ensure consistency
@@ -95,10 +95,10 @@ const handleSave = async (projectData) => {
   try {
     if (editingProject) {
       console.log('Updating project:', editingProject.id);
-      await axios.put(`${API_BASE}/projects/${editingProject.id}`, projectData);
+      await axios.put(`${API_BASE}/admin/projects/${editingProject.id}`, projectData);
     } else {
       console.log('Creating new project');
-      await axios.post(`${API_BASE}/projects`, projectData);
+      await axios.post(`${API_BASE}/admin/projects`, projectData);
     }
     
     console.log('Project saved successfully');
@@ -119,7 +119,7 @@ const handleSave = async (projectData) => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this project?')) {
       try {
-        await axios.delete(`${API_BASE}/projects/${id}`);
+        await axios.delete(`${API_BASE}/admin/projects/${id}`);
         fetchProjects();
       } catch (error) {
         console.error('Error deleting project:', error);
@@ -130,7 +130,7 @@ const handleSave = async (projectData) => {
   // s1: Working toggleVisibility function
   const toggleVisibility = async (project) => {
     try {
-      await axios.put(`${API_BASE}/projects/${project.id}`, {
+      await axios.put(`${API_BASE}/admin/projects/${project.id}`, {
         ...project,
         visible: !project.visible
       });

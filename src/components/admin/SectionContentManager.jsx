@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../../../src/utils/axiosInstance';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   DndContext,
@@ -55,7 +55,7 @@ const SectionContentManager = () => {
   // s1: Fetch section details
   const fetchSection = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/sections/${sectionId}`);
+      const response = await axios.get(`${API_BASE}/admin/sections/${sectionId}`);
       setSection(response.data);
     } catch (error) {
       console.error('Error fetching section:', error);
@@ -69,7 +69,7 @@ const SectionContentManager = () => {
     setError('');
     
     try {
-      const response = await axios.get(`${API_BASE}/sections/${sectionId}/content`, { 
+      const response = await axios.get(`${API_BASE}/admin/sections/${sectionId}/content`, { 
         timeout: 10000 
       });
       
@@ -116,7 +116,7 @@ const SectionContentManager = () => {
       try {
         await Promise.all(
           updatedItems.map(item => 
-            axios.put(`${API_BASE}/sections/${sectionId}/content/${item.id}`, item)
+            axios.put(`${API_BASE}/admin/sections/${sectionId}/content/${item.id}`, item)
           )
         );
         fetchContent(); // Refresh to ensure consistency
@@ -137,9 +137,9 @@ const SectionContentManager = () => {
       };
 
       if (editingContent) {
-        await axios.put(`${API_BASE}/sections/${sectionId}/content/${editingContent.id}`, dataWithSection);
+        await axios.put(`${API_BASE}/admin/sections/${sectionId}/content/${editingContent.id}`, dataWithSection);
       } else {
-        await axios.post(`${API_BASE}/sections/${sectionId}/content`, dataWithSection);
+        await axios.post(`${API_BASE}/admin/sections/${sectionId}/content`, dataWithSection);
       }
       
       setShowForm(false);
@@ -155,7 +155,7 @@ const SectionContentManager = () => {
   const handleDelete = async (contentId) => {
     if (window.confirm('Are you sure you want to delete this content?')) {
       try {
-        await axios.delete(`${API_BASE}/sections/${sectionId}/content/${contentId}`);
+        await axios.delete(`${API_BASE}/admin/sections/${sectionId}/content/${contentId}`);
         fetchContent();
       } catch (error) {
         console.error('Error deleting content:', error);
@@ -166,7 +166,7 @@ const SectionContentManager = () => {
   // s1: Toggle content visibility
   const toggleVisibility = async (contentItem) => {
     try {
-      await axios.put(`${API_BASE}/sections/${sectionId}/content/${contentItem.id}`, {
+      await axios.put(`${API_BASE}/admin/sections/${sectionId}/content/${contentItem.id}`, {
         ...contentItem,
         visible: !contentItem.visible
       });

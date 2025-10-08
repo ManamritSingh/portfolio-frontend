@@ -28,6 +28,7 @@ import springlogo from '/src/assets/spring.png'
 import tkinterlogo from '/src/assets/tkinter.png'
 import vitelogo from '/src/assets/vite.jpeg'
 import tensorflowlogo from '/src/assets/tensorflow.png'
+import awslogo from '/src/assets/aws.png'
 
 
 const skills = [
@@ -61,6 +62,7 @@ const skills = [
   { name: 'Git', img: gitlogo },
   { name: 'CUDA', img: cudalogo },
   { name: 'Azure', img: azurelogo },
+  { name: 'AWS', img: awslogo }, 
   // { name: 'Amazon S3', img: 'https://raw.githubusercontent.com/github/explore/main/topics/amazon-s3/amazon-s3.png' },
   { name: 'MySQL', img: mysqllogo },
   { name: 'PostgresQL', img: postgreslogo },

@@ -13,6 +13,7 @@ import LeadershipManager from './components/admin/LeadershipManager';
 import CertificationsManager from './components/admin/CertificationsManager';
 import UnifiedSectionsManager from './components/admin/UnifiedSectionsManager';
 import SectionContentManager from './components/admin/SectionContentManager';
+import LoginPage from './components/auth/LoginPage.jsx';
 
 // Portfolio routes
 import ThemeManager from './components/ThemesManager.jsx';
@@ -24,55 +25,49 @@ import './styles/themes.css';
 // Home (public landing) sections using MUI
 import Main from './components/home/Main.jsx'
 
-
+// auth related
+import ProtectedRoute from "./auth/ProtectedRoute";
+import { AuthProvider } from "./auth/AuthContext";
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        {/* ThemeManager can stay global so all routes inherit themes */}
-        <ThemeManager />
+      <AuthProvider>
+        <div className="App">
+          <ThemeManager />
+          <Routes>
+            {/* public */}
+            <Route path="/" element={<Main />} />
+            <Route path="/vscode" element={<VSCodeResume />} />
+            <Route path="/resume" element={<Resume />} />
+            <Route path="/start" element={<Preferences />} />
+            <Route path="/home" element={<Main />} />
+            <Route path="/login" element={<LoginPage />} />
 
-        <Routes>
-          {/* Public/portfolio routes */}
-          <Route path="/" element={<Main />} />
-          <Route path="/vscode" element={<VSCodeResume />} />
-          <Route path="/resume" element={<Resume />} />
-          <Route path="/start" element={<Preferences />} />
-          <Route path="/home" element={<Main />} />
+            {/* protect entire admin tree */}
+            <Route element={<ProtectedRoute requiredRole="admin" />}>
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<Navigate to="/admin/dashboard" replace />} />
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="personal" element={<PersonalInfoManager />} />
+                <Route path="experience" element={<ExperienceManager />} />
+                <Route path="education" element={<EducationManager />} />
+                <Route path="skills" element={<SkillsManager />} />
+                <Route path="projects" element={<ProjectsManager />} />
+                <Route path="certifications" element={<CertificationsManager />} />
+                <Route path="leadership" element={<LeadershipManager />} />
+                <Route path="sections" element={<UnifiedSectionsManager />} />
+                <Route path="sections/:sectionId/content" element={<SectionContentManager />} />
+                <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
+              </Route>
+            </Route>
 
-          {/* Admin routes with nested structure */}
-          <Route path="/admin" element={<AdminLayout />}>
-            {/* Dashboard as default (index) */}
-            <Route index element={<Navigate to="/admin/dashboard" replace />} />
-            <Route path="dashboard" element={<Dashboard />} />
-
-            {/* Content Management */}
-            <Route path="personal" element={<PersonalInfoManager />} />
-            <Route path="experience" element={<ExperienceManager />} />
-            <Route path="education" element={<EducationManager />} />
-            <Route path="skills" element={<SkillsManager />} />
-            <Route path="projects" element={<ProjectsManager />} />
-            <Route path="certifications" element={<CertificationsManager />} />
-            <Route path="leadership" element={<LeadershipManager />} />
-
-            {/* Section Management */}
-            <Route path="sections" element={<UnifiedSectionsManager />} />
-            <Route path="sections/:sectionId/content" element={<SectionContentManager />} />
-
-            {/* Catch-all redirect for invalid admin routes */}
-            <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
-          </Route>
-
-          {/* Direct admin access redirect */}
-          <Route path="/admin-dashboard" element={<Navigate to="/admin/dashboard" replace />} />
-
-          {/* Catch-all redirect - portfolio as default */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </div>
+            <Route path="/admin-dashboard" element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
+      </AuthProvider>
     </Router>
   );
 }
-
 export default App;

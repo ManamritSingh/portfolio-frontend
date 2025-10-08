@@ -1,27 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { User, Mail, Phone, MapPin, Linkedin, Save, RotateCcw, CheckCircle, AlertCircle } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import axios from "../../../src/utils/axiosInstance";
+import {
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  Linkedin,
+  Save,
+  RotateCcw,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
 
 const PersonalInfoManager = () => {
   const [personalInfo, setPersonalInfo] = useState(null);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    location: '',
-    linkedinUrl: ''
+    name: "",
+    email: "",
+    phone: "",
+    location: "",
+    linkedinUrl: "",
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
 
-  const API_BASE = 'http://localhost:8080/api';
+  const API_BASE = "http://localhost:8080/api";
 
   // s1: Initial data fetch on component mount
   useEffect(() => {
-    console.log('🔄 PersonalInfoManager mounted, fetching personal info...');
+    console.log("🔄 PersonalInfoManager mounted, fetching personal info...");
     fetchPersonalInfo();
   }, []);
 
@@ -29,7 +39,7 @@ const PersonalInfoManager = () => {
   useEffect(() => {
     if (personalInfo) {
       const hasModifications = Object.keys(formData).some(
-        key => formData[key] !== (personalInfo[key] || '')
+        (key) => formData[key] !== (personalInfo[key] || "")
       );
       setHasChanges(hasModifications);
     }
@@ -45,121 +55,134 @@ const PersonalInfoManager = () => {
 
   // s1: Fetch personal info from backend
   const fetchPersonalInfo = async () => {
-    console.log('🚀 fetchPersonalInfo called');
+    console.log("🚀 fetchPersonalInfo called");
     setLoading(true);
-    setError('');
-    
+    setError("");
+
     try {
-      console.log('📡 Making request to:', `${API_BASE}/personal-info`);
-      
-      const response = await axios.get(`${API_BASE}/personal-info`, {
+      console.log("📡 Making request to:", `${API_BASE}/public/personal-info`);
+
+      const response = await axios.get(`${API_BASE}/public/personal-info`, {
         timeout: 10000,
       });
-      
-      console.log('✅ Response received:', response.status);
-      console.log('📦 Personal info data:', response.data);
-      
+
+      console.log("✅ Response received:", response.status);
+      console.log("📦 Personal info data:", response.data);
+
       if (response.data) {
         setPersonalInfo(response.data);
         // s1: Initialize form with fetched data
         setFormData({
-          name: response.data.name || '',
-          email: response.data.email || '',
-          phone: response.data.phone || '',
-          location: response.data.location || '',
-          linkedinUrl: response.data.linkedinUrl || ''
+          name: response.data.name || "",
+          email: response.data.email || "",
+          phone: response.data.phone || "",
+          location: response.data.location || "",
+          linkedinUrl: response.data.linkedinUrl || "",
         });
-        console.log('🎉 Successfully loaded personal info');
+        console.log("🎉 Successfully loaded personal info");
       } else {
-        console.warn('⚠️ No personal info found');
-        setError('No personal information found');
+        console.warn("⚠️ No personal info found");
+        setError("No personal information found");
       }
-      
     } catch (error) {
-      console.error('❌ Fetch error:', error);
-      
-      if (error.code === 'ECONNABORTED') {
-        setError('Request timed out - please check if the server is running');
+      console.error("❌ Fetch error:", error);
+
+      if (error.code === "ECONNABORTED") {
+        setError("Request timed out - please check if the server is running");
       } else if (error.response?.status === 404) {
-        setError('Personal info not found - you can create it by filling the form below');
+        setError(
+          "Personal info not found - you can create it by filling the form below"
+        );
       } else if (error.response) {
-        setError(`Server error: ${error.response.status} - ${error.response.statusText}`);
+        setError(
+          `Server error: ${error.response.status} - ${error.response.statusText}`
+        );
       } else if (error.request) {
-        setError('Cannot connect to server - please check if backend is running on port 8080');
+        setError(
+          "Cannot connect to server - please check if backend is running on port 8080"
+        );
       } else {
         setError(`Unexpected error: ${error.message}`);
       }
-      
+
       // s1: Allow creating new personal info if none exists
       setPersonalInfo(null);
     } finally {
       setLoading(false);
-      console.log('✅ fetchPersonalInfo completed');
+      console.log("✅ fetchPersonalInfo completed");
     }
   };
 
   // s1: Handle form input changes
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   // s1: Handle form submission
   const handleSave = async (e) => {
     e.preventDefault();
-    
+
     if (saving) return;
-    
+
     setSaving(true);
-    setError('');
+    setError("");
     setSuccess(false);
-    
+
     try {
       const cleanedData = {
         name: formData.name.trim(),
         email: formData.email.trim(),
         phone: formData.phone.trim(),
         location: formData.location.trim(),
-        linkedinUrl: formData.linkedinUrl.trim()
+        linkedinUrl: formData.linkedinUrl.trim(),
       };
-      
+
       // s1: Validate required fields
       if (!cleanedData.name || !cleanedData.email) {
-        throw new Error('Name and email are required');
+        throw new Error("Name and email are required");
       }
-      
+
       // s1: Validate email format
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(cleanedData.email)) {
-        throw new Error('Please enter a valid email address');
+        throw new Error("Please enter a valid email address");
       }
-      
+
       // s1: Validate LinkedIn URL format if provided
-      if (cleanedData.linkedinUrl && !cleanedData.linkedinUrl.includes('linkedin.com')) {
-        throw new Error('Please enter a valid LinkedIn URL');
+      if (
+        cleanedData.linkedinUrl &&
+        !cleanedData.linkedinUrl.includes("linkedin.com")
+      ) {
+        throw new Error("Please enter a valid LinkedIn URL");
       }
-      
-      console.log('Submitting personal info:', cleanedData);
-      
+
+      console.log("Submitting personal info:", cleanedData);
+
       let response;
       if (personalInfo?.id) {
         // s1: Update existing record
-        response = await axios.put(`${API_BASE}/personal-info/${personalInfo.id}`, cleanedData);
+        response = await axios.put(
+          `${API_BASE}/admin/personal-info`,
+          cleanedData
+        );
       } else {
         // s1: Create new record
-        response = await axios.post(`${API_BASE}/personal-info`, cleanedData);
+        response = await axios.post(
+          `${API_BASE}/admin/personal-info`,
+          cleanedData
+        );
       }
-      
+
       setPersonalInfo(response.data);
       setSuccess(true);
       setHasChanges(false);
-      console.log('✅ Personal info saved successfully');
-      
+      console.log("✅ Personal info saved successfully");
     } catch (error) {
-      console.error('Form submission error:', error);
-      setError(error.message || 'Failed to save personal information');
+      console.error("Form submission error:", error);
+      setError(error.message || "Failed to save personal information");
     } finally {
       setSaving(false);
     }
@@ -169,19 +192,19 @@ const PersonalInfoManager = () => {
   const handleReset = () => {
     if (personalInfo) {
       setFormData({
-        name: personalInfo.name || '',
-        email: personalInfo.email || '',
-        phone: personalInfo.phone || '',
-        location: personalInfo.location || '',
-        linkedinUrl: personalInfo.linkedinUrl || ''
+        name: personalInfo.name || "",
+        email: personalInfo.email || "",
+        phone: personalInfo.phone || "",
+        location: personalInfo.location || "",
+        linkedinUrl: personalInfo.linkedinUrl || "",
       });
     } else {
       setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        location: '',
-        linkedinUrl: ''
+        name: "",
+        email: "",
+        phone: "",
+        location: "",
+        linkedinUrl: "",
       });
     }
     setHasChanges(false);
@@ -203,7 +226,9 @@ const PersonalInfoManager = () => {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-3xl font-bold text-admin-text mb-2">Personal Information</h1>
+            <h1 className="text-3xl font-bold text-admin-text mb-2">
+              Personal Information
+            </h1>
             <p className="text-admin-text/70">
               Manage your personal details and contact information
             </p>
@@ -265,7 +290,7 @@ const PersonalInfoManager = () => {
               type="text"
               required
               value={formData.name}
-              onChange={(e) => handleInputChange('name', e.target.value)}
+              onChange={(e) => handleInputChange("name", e.target.value)}
               className="w-full px-4 py-4 bg-admin-bg border border-admin-border rounded-lg text-admin-text placeholder-admin-text/50 focus:outline-none focus:ring-2 focus:ring-admin-accent focus:border-admin-accent transition-all duration-200 text-lg"
               placeholder="MANAMRIT SINGH"
               disabled={saving}
@@ -282,7 +307,7 @@ const PersonalInfoManager = () => {
               type="email"
               required
               value={formData.email}
-              onChange={(e) => handleInputChange('email', e.target.value)}
+              onChange={(e) => handleInputChange("email", e.target.value)}
               className="w-full px-4 py-4 bg-admin-bg border border-admin-border rounded-lg text-admin-text placeholder-admin-text/50 focus:outline-none focus:ring-2 focus:ring-admin-accent focus:border-admin-accent transition-all duration-200 text-lg"
               placeholder="manamritsingh@nyu.edu"
               disabled={saving}
@@ -299,7 +324,7 @@ const PersonalInfoManager = () => {
               <input
                 type="tel"
                 value={formData.phone}
-                onChange={(e) => handleInputChange('phone', e.target.value)}
+                onChange={(e) => handleInputChange("phone", e.target.value)}
                 className="w-full px-4 py-4 bg-admin-bg border border-admin-border rounded-lg text-admin-text placeholder-admin-text/50 focus:outline-none focus:ring-2 focus:ring-admin-accent focus:border-admin-accent transition-all duration-200"
                 placeholder="+1 914-240-3805"
                 disabled={saving}
@@ -314,7 +339,7 @@ const PersonalInfoManager = () => {
               <input
                 type="text"
                 value={formData.location}
-                onChange={(e) => handleInputChange('location', e.target.value)}
+                onChange={(e) => handleInputChange("location", e.target.value)}
                 className="w-full px-4 py-4 bg-admin-bg border border-admin-border rounded-lg text-admin-text placeholder-admin-text/50 focus:outline-none focus:ring-2 focus:ring-admin-accent focus:border-admin-accent transition-all duration-200"
                 placeholder="New York City"
                 disabled={saving}
@@ -331,7 +356,7 @@ const PersonalInfoManager = () => {
             <input
               type="url"
               value={formData.linkedinUrl}
-              onChange={(e) => handleInputChange('linkedinUrl', e.target.value)}
+              onChange={(e) => handleInputChange("linkedinUrl", e.target.value)}
               className="w-full px-4 py-4 bg-admin-bg border border-admin-border rounded-lg text-admin-text placeholder-admin-text/50 focus:outline-none focus:ring-2 focus:ring-admin-accent focus:border-admin-accent transition-all duration-200"
               placeholder="https://www.linkedin.com/in/manamritsingh/"
               disabled={saving}
@@ -366,7 +391,7 @@ const PersonalInfoManager = () => {
               ) : (
                 <>
                   <Save className="w-4 h-4" />
-                  {personalInfo ? 'Update Information' : 'Create Profile'}
+                  {personalInfo ? "Update Information" : "Create Profile"}
                 </>
               )}
             </button>
@@ -377,8 +402,9 @@ const PersonalInfoManager = () => {
       {/* s1: Info card about the data */}
       <div className="mt-6 p-4 bg-admin-accent/5 border border-admin-accent/20 rounded-lg">
         <p className="text-admin-text/70 text-sm">
-          <strong className="text-admin-accent">Note:</strong> This information will appear at the top of your resume. 
-          Make sure it's accurate and up-to-date as it's how potential employers will contact you.
+          <strong className="text-admin-accent">Note:</strong> This information
+          will appear at the top of your resume. Make sure it's accurate and
+          up-to-date as it's how potential employers will contact you.
         </p>
       </div>
     </div>

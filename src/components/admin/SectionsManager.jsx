@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../../../src/utils/axiosInstance';
 import {
   DndContext,
   closestCenter,
@@ -47,7 +47,7 @@ const SectionsManager = () => {
     setError('');
     
     try {
-      const response = await axios.get(`${API_BASE}/sections`, { timeout: 10000 });
+      const response = await axios.get(`${API_BASE}/admin/sections`, { timeout: 10000 });
       
       if (response.data && Array.isArray(response.data)) {
         setSections(response.data);
@@ -84,7 +84,7 @@ const SectionsManager = () => {
 
       try {
         // Use your custom reorder endpoint
-        await axios.put(`${API_BASE}/sections/reorder`, newSections);
+        await axios.put(`${API_BASE}/admin/sections/reorder`, newSections);
         fetchSections(); // Refresh to ensure consistency
       } catch (error) {
         console.error('Error updating order:', error);
@@ -97,9 +97,9 @@ const SectionsManager = () => {
   const handleSave = async (sectionData) => {
     try {
       if (editingSection) {
-        await axios.put(`${API_BASE}/sections/${editingSection.id}`, sectionData);
+        await axios.put(`${API_BASE}/admin/sections/${editingSection.id}`, sectionData);
       } else {
-        await axios.post(`${API_BASE}/sections`, sectionData);
+        await axios.post(`${API_BASE}/admin/sections`, sectionData);
       }
       
       setShowForm(false);
@@ -118,7 +118,7 @@ const SectionsManager = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this section? All content within this section will also be deleted.')) {
       try {
-        await axios.delete(`${API_BASE}/sections/${id}`);
+        await axios.delete(`${API_BASE}/admin/sections/${id}`);
         fetchSections();
       } catch (error) {
         console.error('Error deleting section:', error);
@@ -129,7 +129,7 @@ const SectionsManager = () => {
   // s1: Toggle section visibility
   const toggleVisibility = async (section) => {
     try {
-      await axios.put(`${API_BASE}/sections/${section.id}`, {
+      await axios.put(`${API_BASE}/admin/sections/${section.id}`, {
         ...section,
         visible: !section.visible
       });

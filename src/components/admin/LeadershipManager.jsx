@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../../../src/utils/axiosInstance';
 import {
   DndContext,
   closestCenter,
@@ -45,7 +45,7 @@ const LeadershipManager = () => {
     setError('');
     
     try {
-      const response = await axios.get(`${API_BASE}/leadership`, { timeout: 10000 });
+      const response = await axios.get(`${API_BASE}/admin/leadership`, { timeout: 10000 });
       
       if (response.data && Array.isArray(response.data)) {
         setLeadership(response.data);
@@ -86,7 +86,7 @@ const LeadershipManager = () => {
 
       try {
         await Promise.all(
-          updatedItems.map(item => axios.put(`${API_BASE}/leadership/${item.id}`, item))
+          updatedItems.map(item => axios.put(`${API_BASE}/admin/leadership/${item.id}`, item))
         );
         fetchLeadership();
       } catch (error) {
@@ -99,9 +99,9 @@ const LeadershipManager = () => {
   const handleSave = async (leadershipData) => {
     try {
       if (editingLeadership) {
-        await axios.put(`${API_BASE}/leadership/${editingLeadership.id}`, leadershipData);
+        await axios.put(`${API_BASE}/admin/leadership/${editingLeadership.id}`, leadershipData);
       } else {
-        await axios.post(`${API_BASE}/leadership`, leadershipData);
+        await axios.post(`${API_BASE}/admin/leadership`, leadershipData);
       }
       
       setShowForm(false);
@@ -116,7 +116,7 @@ const LeadershipManager = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this leadership entry?')) {
       try {
-        await axios.delete(`${API_BASE}/leadership/${id}`);
+        await axios.delete(`${API_BASE}/admin/leadership/${id}`);
         fetchLeadership();
       } catch (error) {
         console.error('Error deleting leadership:', error);
@@ -126,7 +126,7 @@ const LeadershipManager = () => {
 
   const toggleVisibility = async (leader) => {
     try {
-      await axios.put(`${API_BASE}/leadership/${leader.id}`, {
+      await axios.put(`${API_BASE}/admin/leadership/${leader.id}`, {
         ...leader,
         visible: !leader.visible
       });
