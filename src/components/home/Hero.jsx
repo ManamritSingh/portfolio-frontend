@@ -9,10 +9,11 @@ import Paper from "@mui/material/Paper";
 import EmailIcon from "@mui/icons-material/Email";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import portraitUrl from '../../assets/IMG_1874.JPG';
 
 export default function Hero() {
   // Replace with a public asset (e.g., /images/portrait.png) instead of an absolute path
-  const portraitUrl = "src/assets/IMG_1874.JPG";
+  // const portraitUrl = "src/assets/IMG_1874.JPG";
 
   return (
     <Container
