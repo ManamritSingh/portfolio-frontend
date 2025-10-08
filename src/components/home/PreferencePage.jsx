@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import homeTheme from "./hometheme";
+import homeTheme from "./homeTheme";
 
 export default function Preferences() {
   const navigate = useNavigate();
