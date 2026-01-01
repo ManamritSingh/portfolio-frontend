@@ -9,7 +9,7 @@ export default function About({
   width = '100%',
   height = 'auto',
   stickyTop = 80,
-  padding = { xs: 3, md: 4 },
+  padding = { xs: 2, md: 4 },
   borderRadius = { xs: 2, md: 3 }
 }) {
   return (
@@ -21,7 +21,7 @@ export default function About({
             position: 'sticky',
             top: stickyTop,
             zIndex: (t) => t.zIndex.appBar - 1,
-            borderRadius: { xs: 30, md: 10 },
+            borderRadius: { xs: 16, md: 10 },
             overflow: 'hidden',
             border: '1px solid',
             borderColor: 'divider',
@@ -33,12 +33,24 @@ export default function About({
             py: padding
           }}
         >
-          <Typography variant="h4" 
-          align = "center"
-          sx = {{ fontWeight: 700, mb: 2 }}>
+          <Typography
+            variant="h4"
+            align="center"
+            sx={(theme) => ({
+              fontWeight: 700,
+              mb: 2,
+              [theme.breakpoints.down("sm")]: { fontSize: "1.35rem" },
+            })}
+          >
             About
           </Typography>
-          <Typography align='center' color="text.secondary">
+          <Typography
+            align="center"
+            color="text.secondary"
+            sx={(theme) => ({
+              [theme.breakpoints.down("sm")]: { fontSize: "0.9rem" },
+            })}
+          >
             I’m someone who enjoys building at the intersection of technology, design, and problem-solving. My work spans across web development, backend systems, data science, and machine learning, with a strong interest in creating tools that feel intuitive and impactful. I enjoy turning complex ideas into practical solutions—whether that’s optimizing models for efficiency, shaping intuitive user experiences, or designing reliable systems that scale.
             <br/>Curiosity drives me: blending research-driven approaches with hands-on engineering. From analyzing large-scale datasets to architecting full-stack applications, my focus is always on creating tools that are not only functional but also meaningful to the people who use them.
           </Typography>

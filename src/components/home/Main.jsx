@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemeProvider, CssBaseline, createTheme } from "@mui/material";
+import { ThemeProvider, CssBaseline, createTheme, useMediaQuery } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
@@ -13,6 +13,9 @@ import Socials from "./Socials.jsx";
 
 const homeTheme = createTheme({
   cssVariables: true, // optional; enables var(--mui-...) for CSS if needed
+  breakpoints: {
+    values: { xs: 0, sm: 600, md: 700, lg: 1200, xl: 1536 },
+  },
   palette: {
     mode: "light",
     primary: { main: "#f5c4c5", secondary: "#5c0608", tertiary: "#000000"},
@@ -29,6 +32,7 @@ const homeTheme = createTheme({
 
 export default function Main() {
   const NAV_HEIGHT = 64;
+  const isTabletRange = useMediaQuery("(min-width:700px) and (max-width:900px)");
 
   // 🎯 use your Google Drive or Dropbox direct download link here
   const resumeLink = "https://drive.google.com/drive/folders/17O85EriUJ2HJpUWPSCLsdlDZMpkY9IEJ?usp=sharing";
@@ -36,7 +40,8 @@ export default function Main() {
   // shared button style (matches your NavBar aesthetic)
   const buttonStyle = {
     borderRadius: 9999,
-    px: 1.5,
+    px: { sm: 1.5, md: 1.1, lg: 1.5 },
+    fontSize: { sm: "0.85rem", md: "0.75rem", lg: "0.9rem" },
     textTransform: "none",
     fontWeight: 600,
     color: "text.primary",
@@ -64,7 +69,8 @@ export default function Main() {
 
   const buttonStyle1 = {
     borderRadius: 9999,
-    px: 1.5,
+    px: { sm: 1.5, md: 1.1, lg: 1.5 },
+    fontSize: { sm: "0.85rem", md: "0.75rem", lg: "0.9rem" },
     textTransform: "none",
     fontWeight: 600,
     color: "background.default",
@@ -94,7 +100,7 @@ export default function Main() {
     <ThemeProvider theme={homeTheme}>
       <CssBaseline />
       <Box>
-        <NavBar />
+        <NavBar resumeLink={resumeLink} />
 
         {/* Floating buttons (top-right) */}
         <Stack
@@ -108,21 +114,25 @@ export default function Main() {
             display: { xs: "none", sm: "flex" }, // hide on mobile if desired
           }}
         >
-          <Button
-            href="/start"
-            sx={buttonStyle1}
-          >
-            Get Started
-          </Button>
+          {!isTabletRange && (
+            <Button
+              href="/start"
+              sx={buttonStyle1}
+            >
+              Get Started
+            </Button>
+          )}
 
-          <Button
-            href={resumeLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={buttonStyle}
-          >
-            Download Resume
-          </Button>
+          {!isTabletRange && (
+            <Button
+              href={resumeLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={buttonStyle}
+            >
+              Download Resume
+            </Button>
+          )}
         </Stack>
 
         {/* Main content */}
@@ -136,14 +146,14 @@ export default function Main() {
             id="about"
             maxWidth={false}
             disableGutters
-            sx={{ py: { xs: 8, md: 10 }, width: "100%" }}
+            sx={{ py: { xs: 4, md: 10 }, width: "100%" }}
           >
             <About />
           </Container>
-          <Container id="skills" maxWidth="lg" sx={{ py: { xs: 8, md: 10 } }}>
+          <Container id="skills" maxWidth="lg" sx={{ py: { xs: 4, md: 10 } }}>
             <Skills />
           </Container>
-          <Container id="contact" maxWidth="lg" sx={{ py: { xs: 8, md: 10 } }}>
+          <Container id="contact" maxWidth="lg" sx={{ py: { xs: 4, md: 10 } }}>
             <Socials />
           </Container>
         </Box>

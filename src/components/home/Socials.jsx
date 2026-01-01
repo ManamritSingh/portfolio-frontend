@@ -30,7 +30,7 @@ export default function Socials() {
     color: 'primary.main',
     border: '1px solid',
     borderColor: 'divider',
-    borderRadius: { xs: 30, md: 10 }, // rounded corners for the floating feel
+    borderRadius: { xs: 12, md: 10 }, // rounded corners for the floating feel
     boxShadow: 6, // MUI elevation [7]
     backdropFilter: 'saturate(120%) blur(8px)', // optional glassy feel [10]
     WebkitBackdropFilter: 'saturate(120%) blur(8px)',

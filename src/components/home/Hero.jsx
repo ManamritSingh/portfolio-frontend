@@ -23,7 +23,7 @@ export default function Hero() {
       <Paper
         elevation={3}
         sx={{
-          borderRadius: { xs: 30, md: 10 }, // rounded edges
+          borderRadius: { xs: 16, md: 10 }, // rounded edges
           overflow: "hidden", // clip the diagonal and image inside the card
           // Optional: add a soft outline for definition on light backgrounds
           border: "1px solid",
@@ -33,13 +33,18 @@ export default function Hero() {
         <Box
           sx={{
             position: "relative",
-            minHeight: { xs: 720, md: "96vh" },
+            minHeight: { xs: "auto", md: "45vh", lg: "96vh" },
+            display: { xs: "flex", md: "flex", lg: "block" },
+            flexDirection: { xs: "column", md: "column", lg: "initial" },
             // Two sections via gradient inside the card
             background: {
               xs: `linear-gradient(78deg,
-                    var(--mui-palette-background-paper) 0 55%,
-                    var(--mui-palette-common-black) 55% 100%)`,
+                    var(--mui-palette-background-paper) 0 48%,
+                    var(--mui-palette-common-black) 48% 100%)`,
               md: `linear-gradient(78deg,
+                    var(--mui-palette-background-paper) 0 48%,
+                    var(--mui-palette-common-black) 48% 100%)`,
+              lg: `linear-gradient(78deg,
                     var(--mui-palette-background-paper) 0 48%,
                     var(--mui-palette-common-black) 48% 100%)`,
             },
@@ -49,11 +54,12 @@ export default function Hero() {
           <Container
             maxWidth="lg"
             sx={{
-              minHeight: { xs: "7vh", md: "95vh" }, // ensure it has height to center within
+              minHeight: { xs: "auto", md: "45vh", lg: "95vh" }, // ensure it has height to center within
               display: "flex",
               alignItems: "center",
               disableGutters: true, // if you prefer no side padding
-              px: { xs: 2, md: 0 }, // or control gutters explicitly
+              px: { xs: 2, md: 3, lg: 0 }, // or control gutters explicitly
+              py: { xs: 4, md: 5, lg: 0 },
             }}
           >
             <Box
@@ -61,31 +67,51 @@ export default function Hero() {
                 maxWidth: { xs: 600, md: 720 },
                 width: "100%",
                 // manual horizontal control:
-                ml: { xs: 2, md: "2%" }, // shift right at md+
-                mr: { xs: 2, md: 0 }, // keep a small right gutter on mobile
-                textAlign: { xs: "left" },
+                ml: { xs: 0, md: 0, lg: "2%" }, // shift right at lg+
+                mr: { xs: 0, md: 0 },
+                textAlign: { xs: "left", md: "left" },
               }}
             >
               <Typography
                 variant="overline"
-                sx={{ color: "text.secondary", letterSpacing: 2 }}
+                sx={(theme) => ({
+                  color: "text.secondary",
+                  letterSpacing: 2,
+                  [theme.breakpoints.only("md")]: { fontSize: "1.5rem" },
+                })}
               >
                 Hi, I am
               </Typography>
               <Typography
                 variant="h2"
-                sx={{ fontWeight: 800, lineHeight: 1.05, mt: 1 }}
+                sx={(theme) => ({
+                  fontWeight: 800,
+                  lineHeight: 1.05,
+                  mt: 1,
+                  [theme.breakpoints.down("sm")]: { fontSize: "1rem" },
+                  [theme.breakpoints.only("md")]: { fontSize: "2.5rem" },
+                })}
               >
                 Manamrit Singh
               </Typography>
               <Typography
                 variant="h6"
-                sx={{ color: "text.secondary", mt: 2, fontWeight: 600 }}
+                sx={(theme) => ({
+                  color: "text.secondary",
+                  mt: 2,
+                  fontWeight: 600,
+                  [theme.breakpoints.down("sm")]: { fontSize: "0.95rem" },
+                  [theme.breakpoints.only("md")]: { fontSize: "2.2rem" },
+                })}
               >
                 CS GRAD
               </Typography>
 
-              <Stack direction="row" spacing={1.5} sx={{ mt: 4 }}>
+              <Stack
+                direction="row"
+                spacing={1.5}
+                sx={{ mt: { xs: 3, md: 4 }, justifyContent: "flex-start" }}
+              >
                 <IconButton
                   aria-label="Email"
                   href="mailto:manamritsingh@nyu.edu"
@@ -122,18 +148,21 @@ export default function Hero() {
               backgroundImage: `url(${portraitUrl})`,
               backgroundRepeat: "no-repeat",
 
-              backgroundSize: { xs: "130%", md: "60%" },
+              backgroundSize: { xs: "70%", md: "85%", lg: "60%" },
               backgroundPosition: {
-                xs: "right -2% bottom",
-                md: "right -4% bottom",
+                xs: "right -9% bottom",
+                md: "right -68% bottom",
+                lg: "right bottom",
               },
               WebkitMaskImage: {
-                xs: "linear-gradient(78deg, transparent 0 55%, #000 55% 100%)",
+                xs: "linear-gradient(78deg, transparent 0 48%, #000 48% 100%)",
                 md: "linear-gradient(78deg, transparent 0 48%, #000 48% 100%)",
+                lg: "linear-gradient(78deg, transparent 0 48%, #000 48% 100%)",
               },
               maskImage: {
-                xs: "linear-gradient(78deg, transparent 0 55%, #000 55% 100%)",
+                xs: "linear-gradient(78deg, transparent 0 48%, #000 48% 100%)",
                 md: "linear-gradient(78deg, transparent 0 48%, #000 48% 100%)",
+                lg: "linear-gradient(78deg, transparent 0 48%, #000 48% 100%)",
               },
             }}
           />
