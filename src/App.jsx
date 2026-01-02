@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 // Admin layout and pages
@@ -21,6 +21,7 @@ import Resume from './components/Resume/Resume';
 import VSCodeResume from './components/Resume/VSCodeResume';
 import Preferences from './components/home/PreferencePage.jsx';
 import './styles/themes.css';
+import { warmUpPublicApi } from './utils/api';
 
 // Home (public landing) sections using MUI
 import Main from './components/home/Main.jsx'
@@ -30,6 +31,10 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 import { AuthProvider } from "./auth/AuthContext";
 
 function App() {
+  useEffect(() => {
+    warmUpPublicApi();
+  }, []);
+
   return (
     <Router>
       <AuthProvider>

@@ -122,3 +122,12 @@ export const fetchAllResumeData = async () => {
     throw error;
   }
 };
+
+// Fire-and-forget warm-up request to reduce cold-start latency.
+export const warmUpPublicApi = async () => {
+  try {
+    await fetch(PUBLIC_API.sections, { cache: 'no-store' });
+  } catch (error) {
+    console.warn('Warm-up request failed:', error);
+  }
+};
