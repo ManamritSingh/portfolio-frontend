@@ -108,6 +108,23 @@ export default function Resume() {
         <Typography sx={{ mt: 2 }} color="text.secondary">
           Loading resume…
         </Typography>
+        <Paper
+          elevation={2}
+          sx={{
+            mt: 2,
+            px: 2,
+            py: 1.25,
+            borderRadius: 2,
+            maxWidth: 480,
+            textAlign: 'center',
+            bgcolor: 'background.paper',
+            color: 'text.secondary',
+          }}
+        >
+          Cold start heads-up: the backend is serverless, so it sometimes has to
+          wake up, stretch, and find its coffee before it responds. That little
+          “just booted up” pause is a cold start delay.
+        </Paper>
       </Box>
     );
   }

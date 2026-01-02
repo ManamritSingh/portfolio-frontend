@@ -125,6 +125,11 @@ const VSCodeResume = () => {
     return (
       <div className="vscode-loading">
         <div className="loading-text">Loading VSCode Resume...</div>
+        <div className="vscode-coldstart">
+          Cold start heads-up: the backend is serverless, so it sometimes takes
+          a moment to wake up and put on its hoodie. That “booting from nap”
+          pause is a cold start delay.
+        </div>
         <div className="loading-dots">
           <span>.</span>
           <span>.</span>
