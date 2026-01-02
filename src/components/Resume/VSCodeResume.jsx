@@ -229,7 +229,7 @@ const VSCodeResume = () => {
           {/* Code Content - Entire Resume */}
           <div className="editor-content">
             <div className="line-numbers">
-              {Array.from({ length: 120 }, (_, i) => (
+              {Array.from({ length: 200 }, (_, i) => (
                 <span key={i + 1}>{i + 1}</span>
               ))}
             </div>
@@ -259,46 +259,15 @@ const VSCodeResume = () => {
 
       {/* Centered floating glass pills (no download button) */}
 
-      <div
-        style={{
-          position: "fixed",
-          left: "50%",
-          bottom: "20px",
-          transform: "translateX(-50%)",
-          display: "flex",
-          gap: "8px",
-          zIndex: 2147483647,
-        }}
-      >
+      <div className="vscode-floating-actions">
         {/* Home */}
         <div
           onClick={() => navigate("/home")}
           role="button"
           aria-label="Go Home"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            borderRadius: "9999px",
-            padding: "10px 14px",
-            background: "rgba(255,255,255,0.35)", // was 0.22
-            backdropFilter: "saturate(160%) blur(14px)", // was blur(10px)
-            WebkitBackdropFilter: "saturate(160%) blur(14px)",
-            border: "1px solid rgba(255,255,255,0.28)", // was 1px solid rgba(0,0,0,0.12)
-            boxShadow:
-              "0 10px 30px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.25)", // stronger lift
-            cursor: "pointer",
-            userSelect: "none",
-          }}
+          className="vscode-floating-action"
         >
-          <span
-            style={{
-              fontWeight: 800,
-              color: "#fff",
-              textShadow: "0 1px 1px rgba(0,0,0,0.45)",
-            }}
-          >
-            Home
-          </span>
+          <span>Home</span>
         </div>
 
         {/* Light Mode -> /resume */}
@@ -306,30 +275,9 @@ const VSCodeResume = () => {
           onClick={() => navigate("/resume")}
           role="button"
           aria-label="Switch to light resume"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            borderRadius: "9999px",
-            padding: "10px 14px",
-            background: "rgba(255,255,255,0.35)",
-            backdropFilter: "saturate(160%) blur(14px)",
-            WebkitBackdropFilter: "saturate(160%) blur(14px)",
-            border: "1px solid rgba(255,255,255,0.28)",
-            boxShadow:
-              "0 10px 30px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.25)",
-            cursor: "pointer",
-            userSelect: "none",
-          }}
+          className="vscode-floating-action"
         >
-          <span
-            style={{
-              fontWeight: 800,
-              color: "#fff",
-              textShadow: "0 1px 1px rgba(0,0,0,0.45)",
-            }}
-          >
-            Download/Light Mode
-          </span>
+          <span>Download/Light Mode</span>
         </div>
       </div>
     </div>

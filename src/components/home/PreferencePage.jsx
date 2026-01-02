@@ -9,6 +9,8 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import { ThemeProvider, CssBaseline } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useNavigate } from "react-router-dom";
 import homeTheme from "./homeTheme";
 
@@ -16,6 +18,9 @@ export default function Preferences() {
   const navigate = useNavigate();
   const [isTech, setIsTech] = useState(null); // 'yes' | 'no' | null
   const [mode, setMode] = useState(null); // 'light' | 'dark' | null
+  const [allowMobile, setAllowMobile] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   // later, programmatically set default
   // useEffect(() => {
@@ -44,6 +49,86 @@ export default function Preferences() {
     <ThemeProvider theme={homeTheme}>
       <CssBaseline enableColorScheme />
 
+      {isMobile && !allowMobile ? (
+        <Box
+          sx={{
+            minHeight: "100vh",
+            display: "grid",
+            placeItems: "center",
+            px: 2,
+            bgcolor: "background.default",
+          }}
+        >
+          <Paper
+            elevation={3}
+            sx={{
+              width: "min(92vw, 520px)",
+              borderRadius: 4,
+              p: { xs: 3, md: 4 },
+              border: "1px solid",
+              borderColor: "divider",
+              bgcolor: "background.paper",
+              color: "text.primary",
+              boxShadow:
+                "0 16px 40px rgba(0,0,0,0.12), 0 6px 16px rgba(0,0,0,0.08)",
+            }}
+          >
+            <Typography variant="h6" sx={{ fontWeight: 800, mb: 1 }}>
+              Best on desktop
+            </Typography>
+            <Typography color="text.secondary" sx={{ mb: 3 }}>
+              This experience is designed for desktop screens. Mobile users can
+              download the resume from the home page.
+            </Typography>
+            <Stack direction="row" spacing={1.5} sx={{ flexWrap: "wrap" }}>
+              <Button
+                variant="contained"
+                size="large"
+                onClick={() => navigate("/home")}
+                sx={{
+                  minWidth: 0,
+                  width: "auto",
+                  borderRadius: 9999,
+                  px: 2.5,
+                  py: 0.9,
+                  fontWeight: 800,
+                  textTransform: "none",
+                  bgcolor: "primary.main",
+                  color: "primary.contrastText",
+                  "&:hover": { bgcolor: "primary.dark" },
+                  boxShadow:
+                    "0 10px 24px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06)",
+                }}
+              >
+                Go to home
+              </Button>
+              <Button
+                variant="outlined"
+                size="large"
+                onClick={() => setAllowMobile(true)}
+                sx={{
+                  minWidth: 0,
+                  width: "auto",
+                  borderRadius: 9999,
+                  px: 2,
+                  py: 0.6,
+                  fontWeight: 700,
+                  fontSize: "0.85rem",
+                  textTransform: "none",
+                  color: "text.secondary",
+                  borderColor: "divider",
+                  "&:hover": {
+                    borderColor: "text.secondary",
+                    bgcolor: "action.hover",
+                  },
+                }}
+              >
+                Continue anyway
+              </Button>
+            </Stack>
+          </Paper>
+        </Box>
+      ) : (
       <Box
         sx={{
           minHeight: "100vh",
@@ -290,6 +375,7 @@ export default function Preferences() {
           </Box>
         </Paper>
       </Box>
+      )}
     </ThemeProvider>
   );
 }

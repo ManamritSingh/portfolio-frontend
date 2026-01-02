@@ -183,6 +183,10 @@ export default function Resume() {
           transform: 'translateX(-50%)',
           display: 'flex',
           gap: 1,
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          maxWidth: { xs: 'min(100%, 520px)', md: 'none' },
+          px: { xs: 1, md: 0 },
           zIndex: (t) => t.zIndex.modal + 1,
         }}
       >
@@ -209,11 +213,12 @@ export default function Resume() {
               minWidth: 0,
               width: 'auto',
               px: 2,
-              py: 0.9,
+              py: { xs: 0.7, md: 0.9 },
               borderRadius: 9999,
               fontWeight: 800,
               textTransform: 'none',
               color: 'text.primary',
+              fontSize: { xs: '0.85rem', md: '0.95rem' },
             }}
           >
             Home
@@ -243,11 +248,12 @@ export default function Resume() {
               minWidth: 0,
               width: 'auto',
               px: 2,
-              py: 0.9,
+              py: { xs: 0.7, md: 0.9 },
               borderRadius: 9999,
               fontWeight: 800,
               textTransform: 'none',
               color: 'text.primary',
+              fontSize: { xs: '0.85rem', md: '0.95rem' },
             }}
           >
             Tech Person ? / Dark Mode
@@ -278,12 +284,13 @@ export default function Resume() {
               minWidth: 0,
               width: 'auto',
               px: 2,
-              py: 0.9,
+              py: { xs: 0.7, md: 0.9 },
               borderRadius: 9999,
               fontWeight: 800,
               textTransform: 'none',
               color: 'text.primary',
               opacity: exporting ? 0.7 : 1,
+              fontSize: { xs: '0.85rem', md: '0.95rem' },
             }}
           >
             {exporting ? 'Exporting…' : 'Export PDF'}
